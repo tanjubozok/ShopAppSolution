@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShopApp.Business.Abstract;
+using ShopApp.Business.Concrete;
+using ShopApp.DataAccess.Abstract;
+using ShopApp.DataAccess.Concrete.EfCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +27,14 @@ namespace ShopApp.WebUI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IProductDal, EfCoreProductDal>();
+            services.AddScoped<IProductService, ProductManager>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -38,6 +44,7 @@ namespace ShopApp.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedDatabase.Seed();
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopApp.Business.Abstract;
 using ShopApp.WebUI.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,21 @@ namespace ShopApp.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private IProductService _productService;
+
+        public HomeController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var getProductList = _productService.GetAll();
+            var model = new ProductListModel()
+            {
+                Products = getProductList
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()

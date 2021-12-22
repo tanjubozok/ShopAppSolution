@@ -1,10 +1,8 @@
 ﻿using ShopApp.Business.Abstract;
 using ShopApp.DataAccess.Abstract;
 using ShopApp.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ShopApp.Business.Concrete
 {
@@ -35,6 +33,21 @@ namespace ShopApp.Business.Concrete
         public Product GetById(int id)
         {
             return _productDal.GetById(id);
+        }
+
+        public int GetCountByCategory(string category)
+        {
+            return _productDal.GetCountByCategory(category);
+        }
+
+        public List<Product> GetProductByCategory(string category, int page, int pageSize)
+        {
+            return _productDal.GetProductByCategory(category, page, pageSize);
+        }
+
+        public Product GetProductDeteail(int id)
+        {
+            return _productDal.GetProductDetail(id);
         }
 
         public void Update(Product entity)

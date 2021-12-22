@@ -1,14 +1,12 @@
 ﻿using ShopApp.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace ShopApp.DataAccess.Abstract
 {
     public interface IProductDal : IRepositoryDal<Product>
     {
-        IEnumerable<Product> GetPopulerProducts();
+        List<Product> GetProductByCategory(string category, int page, int pageSize);
+        Product GetProductDetail(int id);
+        int GetCountByCategory(string category);
     }
 }

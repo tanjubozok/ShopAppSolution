@@ -1,5 +1,3 @@
-using System;
-
 namespace ShopApp.WebUI.Models
 {
     public class ErrorViewModel

@@ -1,9 +1,4 @@
 ﻿using ShopApp.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Linq;
-using System.Text;
 
 namespace ShopApp.DataAccess.Abstract
 {

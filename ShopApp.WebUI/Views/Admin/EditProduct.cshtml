@@ -2,32 +2,47 @@
 
 @{
     ViewData["Title"] = "Edit Product";
+    var counter = 0;
 }
-<form asp-controller="Admin" asp-action="EditProduct" method="post">
+
+@section Scripts{
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("editor");
+</script>
+}
+
+<form asp-controller="Admin" asp-action="EditProduct" method="post" enctype="multipart/form-data">
 
     <div class="row">
         <div class="col-md-8">
-
+            <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" name="Id" value="@Model.Id" />
 
             <div class="form-group row">
                 <label asp-for="Name" class="col-md-2 col-from-label"></label>
                 <div class="col-md-10">
                     <input type="text" asp-for="Name" value="@Model.Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label asp-for="ImageUrl" class="col-md-2 col-from-label"></label>
                 <div class="col-md-10">
-                    <input type="text" asp-for="ImageUrl" value="@Model.ImageUrl" class="form-control" />
+                    <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                    <img src="~/lib/img/@Model.ImageUrl" width="80" />
+                    <input type="file" name="file" value="" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <label asp-for="Description" class="col-md-2 col-from-label"></label>
                 <div class="col-md-10">
-                    <textarea type="text" asp-for="Description" class="form-control">@Model.Description</textarea>
+                    <textarea id="editor" type="text" asp-for="Description" class="form-control">@Model.Description</textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
 
@@ -35,6 +50,7 @@
                 <label asp-for="Price" class="col-md-2 col-from-label"></label>
                 <div class="col-md-10">
                     <input type="text" asp-for="Price" value="@Model.Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
             </div>
 
@@ -49,16 +65,30 @@
         <div class="col-md-4">
             @foreach (var item in (List<Category>)ViewBag.Categories)
             {
+                var isChecked = "";
+                if (Model.SelectCategories.Any(x => x.Id == item.Id))
+                {
+                    isChecked = "checked";
+                    <input type="hidden" name="SelectCategories[@counter].Id" value="@item.Id" />
+                    <input type="hidden" name="SelectCategories[@counter].Name" value="@item.Name" />
+                    counter++;
+                }
+                else
+                {
+                    isChecked = "";
+                }
+
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox"
-                           class="custom-control-input"
-                           name="categoryIds"
-                           value="@item.Id"
-                           id="category@(item.Id)"
-                           @(Model.SelectCategories.Any(x => x.Id == item.Id) ? "checked" : "")>
+                       class="custom-control-input"
+                       name="categoryIds"
+                       value="@item.Id"
+                       id="category@(item.Id)"
+                       @isChecked />
                     <label class="custom-control-label" for="category@(item.Id)">@item.Name</label>
                 </div>
             }
         </div>
     </div>
+
 </form>

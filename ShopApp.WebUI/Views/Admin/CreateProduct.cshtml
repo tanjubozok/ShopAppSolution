@@ -5,8 +5,12 @@
 }
 
 @section Scripts{
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("editor");
+</script>
 }
 
 <div class="row">
@@ -34,7 +38,7 @@
             <div class="form-group row">
                 <label asp-for="Description" class="col-md-2 col-from-label"></label>
                 <div class="col-md-10">
-                    <textarea type="text" asp-for="Description" class="form-control">@Model.Description</textarea>
+                    <textarea id="editor" type="text" asp-for="Description" class="form-control">@Model.Description</textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>

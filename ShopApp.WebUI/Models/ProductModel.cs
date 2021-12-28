@@ -13,7 +13,7 @@ namespace ShopApp.WebUI.Models
         public string Name { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 20, ErrorMessage = "Ürün açıklaması minimum 20 karakter, maximum 100 karakter olmalıdır.")]
+        [StringLength(10000, MinimumLength = 20, ErrorMessage = "Ürün açıklaması minimum 20 karakter, maximum 100 karakter olmalıdır.")]
         public string Description { get; set; }
 
         [Required]

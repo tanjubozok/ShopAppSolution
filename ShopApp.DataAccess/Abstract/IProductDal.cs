@@ -8,5 +8,7 @@ namespace ShopApp.DataAccess.Abstract
         List<Product> GetProductByCategory(string category, int page, int pageSize);
         Product GetProductDetail(int id);
         int GetCountByCategory(string category);
+        Product GetByIdWithCategories(int id);
+        void Update(Product entity, int[] categoryIds);
     }
 }

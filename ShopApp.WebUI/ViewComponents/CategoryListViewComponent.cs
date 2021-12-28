@@ -16,7 +16,7 @@ namespace ShopApp.WebUI.ViewComponents
         public IViewComponentResult Invoke()
         {
             var getCategoryList = _categoryService.GetAll();
-            var model = new CategoryListViewModel
+            var model = new CategoryListModel
             {
                 Categories = getCategoryList,
                 SelectedCategory = RouteData.Values["category"]?.ToString()

@@ -49,10 +49,9 @@ namespace ShopApp.WebUI
                 // options.User.AllowedUserNameCharacters = "";
                 options.User.RequireUniqueEmail = true;
 
-                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             });
-
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -64,9 +63,9 @@ namespace ShopApp.WebUI
                 options.Cookie = new CookieBuilder
                 {
                     HttpOnly = true,
-                    Name = ".ShopApp.Security.Cookie"
+                    Name = ".ShopApp.Security.Cookie",
+                    SameSite = SameSiteMode.Strict
                 };
-
             });
 
             services.AddScoped<IProductDal, EfCoreProductDal>();

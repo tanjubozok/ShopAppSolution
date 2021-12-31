@@ -82,7 +82,14 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+
+            @if (TempData["Message"] != null)
+            {
+                <partial name="_PartialResultMessage" model="@(TempData.Get<ResultMessage>("Message"))" />
+            }
+
             @RenderBody()
+
         </main>
     </div>
 

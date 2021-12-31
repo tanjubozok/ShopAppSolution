@@ -10,8 +10,8 @@ using ShopApp.WebUI.Identity;
 namespace ShopApp.WebUI.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20211229231741_addingIdentity")]
-    partial class addingIdentity
+    [Migration("20211231191028_InitialIdentity")]
+    partial class InitialIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

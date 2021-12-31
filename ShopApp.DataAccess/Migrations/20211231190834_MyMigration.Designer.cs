@@ -10,8 +10,8 @@ using ShopApp.DataAccess.Concrete.EfCore;
 namespace ShopApp.DataAccess.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20211228003410_UpdateProductPriceNullable")]
-    partial class UpdateProductPriceNullable
+    [Migration("20211231190834_MyMigration")]
+    partial class MyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

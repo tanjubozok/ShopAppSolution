@@ -4,7 +4,7 @@ using System;
 
 namespace ShopApp.WebUI.Migrations
 {
-    public partial class addingIdentity : Migration
+    public partial class InitialIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

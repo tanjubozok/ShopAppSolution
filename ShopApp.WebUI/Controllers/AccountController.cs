@@ -65,8 +65,6 @@ namespace ShopApp.WebUI.Controllers
             }
             return View(model);
         }
-
-
         public IActionResult Login(string ReturnUrl = null)
         {
             return View(new LoginModel()
@@ -134,6 +132,70 @@ namespace ShopApp.WebUI.Controllers
 
             TempData["Message"] = "Hesabınız onaylanmadı.";
             return View();
+        }
+
+        public IActionResult ForgetPassword()
+        {
+            return View(new ForgetPasswordModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordModel model)
+        {
+            if (string.IsNullOrEmpty(model.EmailAddress))
+            {
+                ModelState.AddModelError("", "Mail adresi boş olamaz.");
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.EmailAddress);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Bu email ile daha önce hesap oluşturulmamış.");
+                return View(model);
+            }
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.Action("ResetPassword", "Account", new
+            {
+                token = code
+            });
+
+            await _emailSender.SendEmailAsync(model.EmailAddress, "Reset Password.", $"Parolanızı yenilemek için linke <a href='https://localhost:44384{callbackUrl}'>tıklayınız.</a>");
+
+            return RedirectToAction("login", "Account");
+        }
+
+        public IActionResult ResetPassword(string token)
+        {
+            if (token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var model = new ResetPasswordModel
+            {
+                Token = token
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return View(model);
         }
     }
 }

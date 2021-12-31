@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ShopApp.DataAccess.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class MyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace ShopApp.DataAccess.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false)
+                    Price = table.Column<decimal>(nullable: true)
                 },
                 constraints: table =>
                 {

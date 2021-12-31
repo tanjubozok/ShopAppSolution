@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using ShopApp.WebUI.Identity;
 using ShopApp.WebUI.Models;
@@ -11,12 +12,15 @@ namespace ShopApp.WebUI.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
+
         public IActionResult Register()
         {
             return View(new RegisterModel());
@@ -41,13 +45,24 @@ namespace ShopApp.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                // generate token
-                // send email
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Action("ComfirmEmail", "Account", new
+                {
+                    userId = user.Id,
+                    token = code
+                });
 
-                return RedirectToAction("account", "login");
+                await _emailSender.SendEmailAsync(model.Email, "Hesabınızı Onaylayınız.", $"Lütfen email hesabınızı onaylamak için linke <a href='https://localhost:44384{callbackUrl}'>tıklayınız.</a>");
+
+                return RedirectToAction("login", "Account");
             }
-
-            ModelState.AddModelError("", "Bilinmeyen hata oluştu lütfen tekrar deneyiniz.");
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
             return View(model);
         }
 
@@ -75,6 +90,12 @@ namespace ShopApp.WebUI.Controllers
                 return View(model);
             }
 
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", "Lütfen hesabınızı email ile onaylayınız.");
+                return View(model);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
             if (result.Succeeded)
@@ -90,6 +111,29 @@ namespace ShopApp.WebUI.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+
+        public async Task<IActionResult> ComfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                TempData["Message"] = "Geçersiz Token";
+                return View();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    TempData["Message"] = "Hesabınız onaylandı.";
+                    return View();
+                }
+            }
+
+            TempData["Message"] = "Hesabınız onaylanmadı.";
+            return View();
         }
     }
 }

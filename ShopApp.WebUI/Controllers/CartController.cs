@@ -109,12 +109,17 @@ namespace ShopApp.WebUI.Controllers
                 if (payment.Status == "success")
                 {
                     SaveOrder(model, payment, userId);
-                    // ClearCart(userId);
+                    ClearCart(cart.Id.ToString());
                     return View("Success");
                 }
             }
 
             return View(model);
+        }
+
+        public IActionResult Success()
+        {
+            return View();
         }
 
         private void SaveOrder(OrderModel model, Payment payment, string userId)
@@ -147,9 +152,9 @@ namespace ShopApp.WebUI.Controllers
             _orderService.Create(order);
         }
 
-        private void ClearCart(object userId)
+        private void ClearCart(string cartId)
         {
-            throw new NotImplementedException();
+            _cartService.ClearCart(cartId);
         }
 
         private Payment PaymentProcess(OrderModel model)

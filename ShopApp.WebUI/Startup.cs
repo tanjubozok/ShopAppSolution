@@ -79,6 +79,9 @@ namespace ShopApp.WebUI
             services.AddScoped<ICartDal, EfCoreCartDal>();
             services.AddScoped<ICartService, CartManager>();
 
+            services.AddScoped<IOrderDal, EfCoreOrderDal>();
+            services.AddScoped<IOrderService, OrderManager>();
+
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

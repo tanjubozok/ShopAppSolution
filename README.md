@@ -7,4 +7,4 @@ Asp.Net Core Mvc ile Test Amaçlı oluşturulmuş E-Ticaret Site
 - Payment with Iyzico 
 - SendGrid
 - Asp.Net Core Identity
-
+- reCAPTCHA v3

@@ -21,7 +21,18 @@
             <h4 class="text-primary mb-3">
                 @Model.Product.Price ₺
             </h4>
-            <button type="submit" class="btn btn-primary btn-lg">Add To Cart</button>
+
+            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="form-inline">
+                <input type="hidden" name="productId" value="@Model.Product.Id" />
+                <div class="form-group">
+                    <input type="number" name="quantity" value="1" min="1" step="1" class="form-control" style="width:100px;" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>Add To Cart
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
         where T : class
         where TContext : DbContext, new()
     {
-        public void Create(T entity)
+        public virtual void Create(T entity)
         {
             using (var context = new TContext())
             {
@@ -20,7 +20,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             using (var context = new TContext())
             {
@@ -29,7 +29,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             using (var context = new TContext())
             {
@@ -39,7 +39,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             using (var context = new TContext())
             {
@@ -47,7 +47,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public T GetOne(Expression<Func<T, bool>> filter)
+        public virtual T GetOne(Expression<Func<T, bool>> filter)
         {
             using (var context = new TContext())
             {
@@ -55,7 +55,7 @@ namespace ShopApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             using (var context = new TContext())
             {

@@ -13,5 +13,6 @@ namespace ShopApp.WebUI.Models
         public string Password { get; set; }
 
         public string ReturnUrl { get; set; }
+        public string GoogleCaptchaToken { get; set; }
     }
 }

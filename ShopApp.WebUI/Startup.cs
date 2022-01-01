@@ -84,6 +84,8 @@ namespace ShopApp.WebUI
 
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

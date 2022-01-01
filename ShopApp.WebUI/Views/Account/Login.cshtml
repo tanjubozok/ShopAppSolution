@@ -7,6 +7,15 @@
 @section Scripts{
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6Ld7mtwdAAAAAFwBPRpLrBMvu6lyTJy1pO30Nu_M"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6Ld7mtwdAAAAAFwBPRpLrBMvu6lyTJy1pO30Nu_M', { action: 'create' }).then(function (token) {
+            $("#GoogleCaptchaToken").val(token);
+        });
+    });
+</script>
 }
 
 <h1>Login</h1>
@@ -23,8 +32,8 @@
         <form asp-controller="Account" asp-action="Login" method="post">
 
             <div asp-validation-summary="All" class="text-danger"></div>
-
             <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+            @Html.HiddenFor(x => x.GoogleCaptchaToken)
 
             <div class="form-group row">
                 <label asp-for="Email" class="col-md-2 col-form-label"></label>

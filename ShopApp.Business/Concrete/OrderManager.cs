@@ -1,6 +1,7 @@
 ﻿using ShopApp.Business.Abstract;
 using ShopApp.DataAccess.Abstract;
 using ShopApp.Entities;
+using System.Collections.Generic;
 
 namespace ShopApp.Business.Concrete
 {
@@ -16,6 +17,11 @@ namespace ShopApp.Business.Concrete
         public void Create(Order model)
         {
             _orderDal.Create(model);
+        }
+
+        public List<Order> GetOrders(string userId)
+        {
+            return _orderDal.GetOrders(userId);
         }
     }
 }
